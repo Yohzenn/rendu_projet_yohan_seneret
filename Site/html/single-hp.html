@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../css/single-hp.css" />
+
+    <title>Single-character</title>
+  </head>
+  <body>
+    <div id="character"></div>
+
+    <script>
+      function fetchCharacter() {
+        let url = window.location.search;
+        let slug = new URLSearchParams(url).get("slug");
+        return fetch("https://hp-api.lainocs.fr/characters/" + slug)
+        .then ((response) => response.json());
+      }
+
+      async function displayCharacter() {
+        const data = await fetchCharacter();
+        document.querySelector('#character').innerHTML = `  
+        <div class="character-container">
+          <div class="infos">
+        <h1>Nom: ${data.name}</h1>
+        <p>Maison: ${data.house}</p>
+        <p>Acteur: ${data.actor}</p>
+        </div>
+        <img src="${data.image}" alt "${data.name}"/>
+
+        <a href="index.html">Back</a>
+        </div>
+
+        `
+      }
+      displayCharacter();
+    </script>
+  </body>
+</html>
